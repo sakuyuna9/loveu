@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Question For You ♡</title>
+
+<style>
+:root {
+    --bg-color: #f7ebe1;
+    --pink-main: #ff85a1;
+    --pink-light: #fbc4d0;
+    --pink-dark: #e05275;
+    --window-bg: #fff5f7;
+    --text-color: #4a4a4a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* FLOATING HEARTS */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    animation: floatUp 4s linear infinite;
+    opacity: 0.6;
+    z-index: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* MAIN CONTAINER */
+.container {
+    text-align: center;
+    z-index: 2;
+    padding: 20px;
+    width: 100%;
+}
+
+/* ENVELOPE */
+.envelope-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.envelope-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.envelope-text {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: var(--pink-dark);
+    font-weight: bold;
+    background: white;
+    padding: 10px 22px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.envelope {
+    position: relative;
+    width: 280px;
+    height: 180px;
+    background: var(--pink-light);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 110px solid var(--pink-main);
+    transform-origin: top;
+    transition: transform 0.5s;
+    z-index: 3;
+}
+
+.envelope::after {
+    content: "♥";
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--pink-dark);
+    font-size: 35px;
+    z-index: 4;
+}
+
+.envelope-wrapper.open .envelope::before {
+    transform: rotateX(180deg);
+}
+
+/* LETTER */
+.letter {
+    display: none;
+    background: var(--window-bg);
+    max-width: 380px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(224,82,117,0.15);
+    animation: appear 0.7s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.letter h1 {
+    color: var(--pink-dark);
+    font-size: 1.7rem;
+    margin-bottom: 15px;
+}
+
+.letter p {
+    color: var(--text-color);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.letter .heart {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* BUTTONS */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.yes-btn {
+    background: var(--pink-main);
+    color: white;
+}
+
+.yes-btn:hover {
+    background: var(--pink-dark);
+    transform: scale(1.08);
+}
+
+.no-btn {
+    background: white;
+    color: var(--pink-dark);
+    border: 2px solid var(--pink-light);
+}
+
+.no-btn:hover {
+    transform: scale(1.05);
+}
+
+/* FINAL MESSAGE */
+.final-message {
+    display: none;
+    background: var(--window-bg);
+    max-width: 380px;
+    width: 90%;
+    margin: auto;
+    padding: 40px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(224,82,117,0.15);
+    animation: appear 0.7s ease;
+}
+
+.final-message h1 {
+    color: var(--pink-dark);
+    margin-bottom: 15px;
+}
+
+.final-message p {
+    color: var(--text-color);
+    line-height: 1.7;
+}
+
+@media (max-width: 480px) {
+    .envelope {
+        width: 250px;
+        height: 160px;
+    }
+
+    .envelope::before {
+        border-left-width: 125px;
+        border-right-width: 125px;
+        border-top-width: 95px;
+    }
+
+    .letter h1 {
+        font-size: 1.45rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ENVELOPE -->
+    <div class="envelope-wrapper" id="envelope"
+         onclick="openLetter()">
+
+        <div class="envelope-text">
+            You have a little letter ♡
+        </div>
+
+        <div class="envelope"></div>
+    </div>
+
+    <!-- LETTER -->
+    <div class="letter" id="letter">
+
+        <div class="heart">💗</div>
+
+        <h1>Do you want to be my boyfriend?</h1>
+
+        <p>
+            There's something I've been wanting to ask you.
+            I really enjoy having you around,
+            and I'd love to make more memories together.
+            So, what do you say? ♡
+        </p>
+
+        <div class="buttons">
+            <button class="yes-btn" onclick="sayYes()">
+                Yes! 💗
+            </button>
+
+            <button class="no-btn" onclick="sayNo()">
+                No
+            </button>
+        </div>
+    </div>
+
+    <!-- FINAL MESSAGE -->
+    <div class="final-message" id="finalMessage">
+
+        <div class="heart">💞</div>
+
+        <h1>YAY! I LOVE THAT! ♡</h1>
+
+        <p>
+            Thank you for saying yes!
+            Here's to more beautiful memories
+            and happy moments together. 💗
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+// OPEN ENVELOPE
+function openLetter() {
+    document.getElementById("envelope").style.display = "none";
+    document.getElementById("letter").style.display = "block";
+}
+
+// YES BUTTON
+function sayYes() {
+    document.getElementById("letter").style.display = "none";
+    document.getElementById("finalMessage").style.display = "block";
+}
+
+// NO BUTTON
+function sayNo() {
+    alert("That's okay! Thank you for being honest. ♡");
+}
+
+// FLOATING HEARTS
+function createParticle() {
+    const particle = document.createElement("div");
+
+    particle.classList.add("particle");
+    particle.innerHTML = ["♡", "♥", "💕", "💗"][
+        Math.floor(Math.random() * 4)
+    ];
+
+    particle.style.left = Math.random() * 100 + "vw";
+    particle.style.fontSize = (15 + Math.random() * 20) + "px";
+    particle.style.animationDuration = (3 + Math.random() * 4) + "s";
+
+    document.body.appendChild(particle);
+
+    setTimeout(() => {
+        particle.remove();
+    }, 7000);
+}
+
+setInterval(createParticle, 400);
+
+</script>
+
+</body>
+</html>
